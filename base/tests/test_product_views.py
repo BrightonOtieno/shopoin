@@ -65,20 +65,34 @@ class TestProductsAPIViews(TestCase):
         assert response.status_code == 200
 
 
-    # # DETLETE
-    # def testDeleteProduct(self):
-    #     # Create Product
-    #     product2 = mixer.blend(Product,name="roller-blade")
-    #     url = reverse("product",kwargs={"pk":1})
+    # login user not admin can not delete product
+    def testDeleteProduct(self):
+        #Create Product
+        user1 = {
+            "name":"test user1",
+            "email":"testuser1@company.com",
+            "password":"testuser1234"
+        }
+        url = reverse("register")
+        # http://localhost:8000/api/products/top/
+        user_response = self.client.post(url,user1)
+        
+        token = user_response.json()['token']
+
+        self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {token}')
+        product2 = mixer.blend(Product,name="roller-blade")
+        url = reverse("product-delete",kwargs={"pk":1})
 
     
-    #     response = self.client.delete(url)
-    #     print(response.json())
+        product_response = self.client.delete(url)
+
+        assert product_response.json() != None
+        print(product_response.json())
+        print(token)
+        assert product_response.json()['detail'] == 'You do not have permission to perform this action.'
+        # assert product_response.status_code == 200
         
-    #     # assertions
-    #     # assert response.json() != None
-    #     # assert response.json()["_id"] == 1
-    #     assert response.status_code == 200
+        
         
 
 
