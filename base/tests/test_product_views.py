@@ -46,15 +46,18 @@ class TestProductsAPIViews(TestCase):
     # DETAILS 
     def testGetProduct(self):
         # Create Product
-        product1 = mixer.blend(Product)
+        product1 = mixer.blend(Product, name="airpod")
         product2 = mixer.blend(Product)
         url = reverse("product",kwargs={"pk":1})
 
         response = self.client.get(url)
+        print(response.json())
         
         # assertions
         assert response.json() != None
+        assert response.json()["_id"] == 1
         assert response.status_code == 200
+        
 
 
 
