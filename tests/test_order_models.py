@@ -28,3 +28,4 @@ class ProductTest(TestCase):
             myAddress = mixer.blend(ShippingAddress,order=self.order1,city='Nairobi', country="Kenya")
             self.assertTrue(isinstance(myAddress,ShippingAddress))
             self.assertEqual(str(myAddress), self.order1.user.username)
+            # end of tests
