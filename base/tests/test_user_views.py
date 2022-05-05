@@ -12,12 +12,13 @@ class TestProductsAPIViews(TestCase):
 
     def setUp(self):
         self.client = APIClient()
+        self.user = mixer.blend(User,email="testuser@company.com",password="testuser1234", username="testuser@company.com")
         
-
-    def testregisterUser(self):
+    # REGISTER USER
+    def testRegisterUser(self):
         user1 = {
-            "name":"test user",
-            "email":"testuser@company.com",
+            "name":"test user1",
+            "email":"testuser1@company.com",
             "password":"testuser1234"
         }
         url = reverse("register")
@@ -28,3 +29,10 @@ class TestProductsAPIViews(TestCase):
 
         assert response.json() != None
         assert response.status_code == 201
+
+    # LOGIN USER
+    def testLoginUser(self):
+        """pass in details of user that has already been created (in setup)"""
+
+        response = self.client.login(username=self.user.username, password=self.user.password)
+    
