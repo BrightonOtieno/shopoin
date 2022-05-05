@@ -12,6 +12,7 @@ class TestProductsAPIViews(TestCase):
 
     def setUp(self):
         self.client = APIClient()
+        # default user
         self.user = mixer.blend(User,email="testuser@company.com",password="testuser1234", username="testuser@company.com")
         
     # REGISTER USER
