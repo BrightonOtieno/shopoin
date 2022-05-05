@@ -48,7 +48,7 @@ def registerUser(request):
         )
 
         serializer = UserSerializerWithToken(user, many=False)
-        return Response(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
     except:
         message = {'detail': "User with this email already exists"}
         return Response(message, status=status.HTTP_400_BAD_REQUEST)
@@ -58,6 +58,7 @@ def registerUser(request):
 @permission_classes([IsAuthenticated])
 def updateUserProfile(request):
     user = request.user
+    # print(request.user)
     serializer = UserSerializerWithToken(user, many=False)
 
     data = request.data
